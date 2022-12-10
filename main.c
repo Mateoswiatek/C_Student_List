@@ -2,15 +2,19 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+// #include <malloc.h>
 
 #define WYJSCIE 9
 bool czy_pierwszy_raz = 1;
+
 
 struct student{
     int ocena;
     char nazwisko[100];
     struct student *next_adress;
 };
+
+struct student *numer_komurki_gdzie_root;
 
 //ok
 void wpisz_dane_studenta(struct student *s){
@@ -107,7 +111,7 @@ void wyszukiwanie(struct student *root, bool rodzaj, int szukana_ocena, char *sz
     }
 }
 //ok
-void usuwanie_pierwszo_napotkanego(struct student **ws_roota, struct student *root_listy, bool rodzaj, int szukana_ocena, char *skreslane_nazwisko){
+void usuwanie_pierwszo_napotkanego(struct student **ws_rootaa, struct student *root_listy, bool rodzaj, int szukana_ocena, char *skreslane_nazwisko){
     struct student *poprzedni, *aktualny, *nastepny, *ws_nowego_roota;
     int litery_w_nazwisku;
     printf("weszlismy do funkcji\n");
@@ -120,7 +124,7 @@ void usuwanie_pierwszo_napotkanego(struct student **ws_roota, struct student *ro
         for (int i = 0; i <= litery_w_nazwisku; i++) {
             if (skreslane_nazwisko[i] == nazwisko_studenta[i]) {
                 if (i == litery_w_nazwisku) {
-                    *ws_roota = aktualny->next_adress;
+                    *ws_rootaa = aktualny->next_adress;
                     free(aktualny);
                     break;
                 }
@@ -153,9 +157,7 @@ void usuwanie_pierwszo_napotkanego(struct student **ws_roota, struct student *ro
         printf("weszlismy else\n");
         if (aktualny->ocena == szukana_ocena) {
             ws_nowego_roota = aktualny->next_adress;
-            printf("przed *ws_roota\n");
-            *ws_roota = ws_nowego_roota;
-            printf("po *ws_roota\n");
+            numer_komurki_gdzie_root=ws_nowego_roota;
             free(aktualny);
             return;
         }
@@ -163,10 +165,12 @@ void usuwanie_pierwszo_napotkanego(struct student **ws_roota, struct student *ro
         while (aktualny->next_adress) {
             poprzedni = aktualny;
             aktualny = aktualny->next_adress;
+            printf("cos");
             if (aktualny->ocena == szukana_ocena) {
                 nastepny = aktualny->next_adress;
                 free(aktualny);
-                poprzedni->next_adress = nastepny;
+                poprzedni->next_adress = nastepny; // WTF
+                printf("cos");
                 return;
             }
         }
@@ -249,7 +253,25 @@ void wpisz_po(struct  student *root, bool rodzaj, int po_ocenie, char *po_nazwis
 }
 
 void zwalnianie_listy(struct student *root){
-    // tu usuwamy wszystkie, pierwszy zostawiamy, ocene na -1, next adress na 0,
+    struct student *pierwszy, *aktualny, *nastepny;
+    pierwszy=root;
+    if(pierwszy->next_adress==0){
+        pierwszy->ocena=-1; // do stanu poczatkowego
+        return;
+    }
+
+    aktualny=pierwszy->next_adress;
+
+    while(1) {
+        if(pierwszy->next_adress==0){
+            pierwszy->ocena=-1; // do stanu poczatkowego
+            break;
+        }
+        nastepny = aktualny->next_adress;
+        free(aktualny);
+        pierwszy->next_adress = nastepny;
+        aktualny = nastepny;
+    }
 }
 
 int main() {
@@ -308,16 +330,27 @@ int main() {
                 }
                 usuwanie_pierwszo_napotkanego(ws_root, root, tryb, ocenka, S_nazwisko);
                 printf("wyszlo\n");
-                //root=&ws_root;
+                root=numer_komurki_gdzie_root;
                 break;
             case 4:
-
+                printf("dodawanie po\n0-ocena\n1-nazwisko\n");
+                scanf("%d",&tryb);
+                if(tryb){
+                    printf("podaj nazwisko: ");
+                    scanf("%s", &S_nazwisko);
+                }
+                else{
+                    printf("podaj ocene:");
+                    scanf("%d", &ocenka);
+                }
+                wpisz_po(root, tryb, ocenka, S_nazwisko);
                 break;
             case 5:
-
+                zwalnianie_listy(root);
                 break;
             case WYJSCIE:
                 printf("dzieki za skorzystanie z programu\n");
+                zwalnianie_listy(root);
                 free(root);
                 //fflush(stdout); // z bufora na stdout (standardowe wyjście); // pokazac ze bez tego nie wypisze // ew mozna zamienic z free(root)
                 return 0;
@@ -325,7 +358,8 @@ int main() {
         printf("chcesz juz wyjsc? 0/1\n");
         scanf("%d", &pom);
         if(pom){
-            // zwalnianie calej pamieci
+            zwalnianie_listy(root);
+            free(root);
             printf("dzieki za skorzystanie z programu\n");
             return 0;
         }
