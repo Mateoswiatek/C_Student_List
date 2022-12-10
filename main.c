@@ -11,7 +11,7 @@ struct student{
     char nazwisko[100];
     struct student *next_adress;
 };
-
+////
 //ok
 void wpisz_dane_studenta(struct student *s){
     printf("podaj ocene: \n");
@@ -103,8 +103,7 @@ void wyszukiwanie(struct student *root, bool rodzaj, int szukana_ocena, char *sz
         }
     }
 }
-
-
+//ok
 void usuwanie_pierwszo_napotkanego(struct student **ws_roota, bool rodzaj, int szukana_ocena, char *skreslane_nazwisko){
     struct student *poprzedni, *aktualny, *nastepny;
     int litery_w_nazwisku;
@@ -114,7 +113,6 @@ void usuwanie_pierwszo_napotkanego(struct student **ws_roota, bool rodzaj, int s
         char *nazwisko_studenta = aktualny->nazwisko;
         litery_w_nazwisku = strlen(nazwisko_studenta);
 
-        //porowynwanie litera po literze
         for (int i = 0; i <= litery_w_nazwisku; i++) {
             if (skreslane_nazwisko[i] == nazwisko_studenta[i]) {
                 if (i == litery_w_nazwisku) {
