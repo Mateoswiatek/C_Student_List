@@ -21,4 +21,9 @@ Aktualnie działa:
 
 ![image](https://user-images.githubusercontent.com/115046087/206872220-55cdd6cf-bd5e-4988-9022-0aaa7d716f0b.png)
 
+- usuwanie po nazwisku pierwszego: <br />
+
+![image](https://user-images.githubusercontent.com/115046087/206872345-0308008f-6f63-4086-bbb1-4f53cc5242e8.png)
+
+
 
