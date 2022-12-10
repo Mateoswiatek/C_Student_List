@@ -2,11 +2,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-// #include <malloc.h>
 
 #define WYJSCIE 9
 bool czy_pierwszy_raz = 1;
-
 
 struct student{
     int ocena;
@@ -251,7 +249,7 @@ void wpisz_po(struct  student *root, bool rodzaj, int po_ocenie, char *po_nazwis
 
 
 }
-
+//ok
 void zwalnianie_listy(struct student *root){
     struct student *pierwszy, *aktualny, *nastepny;
     pierwszy=root;
@@ -364,25 +362,4 @@ int main() {
             return 0;
         }
     }
-
-    /*
-    usuwanie_pierwszo_napotkanego(ws_root, 0, 1, S_nazwisko);
-    root=*ws_root; // zmiana roota jeśli potrzeba
-*/
-/*
-    wpisz_po(root, 0, 1, S_nazwisko);
-
-    wypisz_wszystkich(root);
-
-*/
-
-    //testy wskaznik do wskaznika
-    /*
-     printf("\n\n\n\n\nroot to %u\n", root);
-    *ws_root=0; // zmieniamy zawartość
-    printf("ws_root to %u\n", ws_root);
-    printf("*ws_root to %u\n", *ws_root);
-
-    root=*ws_root;
-    printf("root po zmianie to %u\n", root); */
 }
