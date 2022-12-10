@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 #define WYJSCIE 9
 bool czy_pierwszy_raz = 1;
@@ -27,6 +28,7 @@ void wypisz_studenta( struct student s){
 void wypisz_wszystkich(struct student *pierwszy){
     struct student *lista_studentow;
     lista_studentow=pierwszy;
+    printf("wszyscy studenci:\n");
     wypisz_studenta(*pierwszy);
     while(lista_studentow->next_adress){
         lista_studentow=lista_studentow->next_adress;
@@ -57,18 +59,38 @@ void dodaj_studentow(int ilosc, struct student *root){
         wpisz_dane_studenta(wsk_listy);
     }
 }
-//ok ocena
+//ok
 void wyszukiwanie(struct student *root, bool rodzaj, int szukana_ocena, char *szukane_nazwisko){
     struct student *nast_student;
+    int litery_w_nazwisku;
     nast_student=root;
 
     if(rodzaj) { //1 - nazwisko 0- ocena
-        printf("Naziwsko to %s\n", szukane_nazwisko);
+        char *nazwisko_studenta = nast_student->nazwisko;
         printf("Studenci o nazwisku %s:\n", szukane_nazwisko);
-        if (nast_student->nazwisko == szukane_nazwisko) wypisz_studenta(*nast_student);
+        litery_w_nazwisku = strlen(nazwisko_studenta);
+
+        //porowynwanie litera po literze
+        for(int i=0;i<=litery_w_nazwisku;i++){
+            if(szukane_nazwisko[i]==nazwisko_studenta[i]){
+                if(i==litery_w_nazwisku) wypisz_studenta(*nast_student);
+                continue;
+            }
+            break;
+        }
+
         while (nast_student->next_adress) {
             nast_student = nast_student->next_adress;
-            if (nast_student->nazwisko == szukane_nazwisko) wypisz_studenta(*nast_student);
+            nazwisko_studenta = nast_student->nazwisko;
+            litery_w_nazwisku = strlen(nazwisko_studenta); // w ta strone, bo w sprawdzane moze byc dluzsze
+
+            for(int i=0;i<=litery_w_nazwisku;i++){
+                if(szukane_nazwisko[i]==nazwisko_studenta[i]){
+                    if(i==litery_w_nazwisku) wypisz_studenta(*nast_student);
+                    continue;
+                }
+                break;
+            }
         }
     }
     else{
@@ -99,15 +121,15 @@ int main() {
     printf("dzialania:\n0-dodawanie stuentow\n1-wyswietlanie studentow\n2-wyszukiwanie\n3-usuwanie\n%d-Wyjscie", WYJSCIE);
     scanf("%d", &wybor); */
 
-    dodaj_studentow(3, root);
+    dodaj_studentow(4, root);
 
     wypisz_wszystkich(root);
 
-    char S_nazwisko[100];
+    char S_nazwisko[100]="ABC";
     /*printf("podaj nazwisko: ");
-    scanf("%s", &S_nazwisko); */
+    scanf("%s", &S_nazwisko);*/
 
-    wyszukiwanie(root, 0, 1, S_nazwisko);
+    wyszukiwanie(root, 1, 1, S_nazwisko);
 
 
     /*
