@@ -78,7 +78,7 @@ void wyszukiwanie(struct student *root, bool rodzaj, int szukana_ocena, char *sz
             }
             break;
         }
-
+        // ebane
         while (nast_student->next_adress) {
             nast_student = nast_student->next_adress;
             nazwisko_studenta = nast_student->nazwisko;
