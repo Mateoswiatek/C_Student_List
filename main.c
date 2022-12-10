@@ -65,18 +65,29 @@ void wyszukiwanie(struct student *root, bool rodzaj, int szukana_ocena, char *sz
     nast_student=root;
 
     if(rodzaj) { //1 - nazwisko 0- ocena
+        char *nazwisko_studenta = nast_student->nazwisko;
         printf("Studenci o nazwisku %s:\n", szukane_nazwisko);
         n = strlen(szukane_nazwisko);
-        printf("%d", n);
 
         for(int i=0;i<=n;i++){
-            printf("%c\n", szukane_nazwisko[i]); //a
+            if(szukane_nazwisko[i]==nazwisko_studenta[i]){
+                if(i==n) wypisz_studenta(*nast_student);
+                continue;
+            }
+            break;
         }
 
-        if (nast_student->nazwisko == szukane_nazwisko) wypisz_studenta(*nast_student);
         while (nast_student->next_adress) {
             nast_student = nast_student->next_adress;
-            if (nast_student->nazwisko == szukane_nazwisko) wypisz_studenta(*nast_student);
+
+            nazwisko_studenta = nast_student->nazwisko;
+            for(int i=0;i<=n;i++){
+                if(szukane_nazwisko[i]==nazwisko_studenta[i]){
+                    if(i==n) wypisz_studenta(*nast_student);
+                    continue;
+                }
+                break;
+            }
         }
     }
     else{
