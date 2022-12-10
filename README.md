@@ -29,5 +29,10 @@ Aktualnie działa:
 
 ![image](https://user-images.githubusercontent.com/115046087/206874862-d01d2e98-8e2c-4efe-b926-17c781966a22.png)
 
+- dopisywanie po zadanej ocenie <br />
+
+![image](https://user-images.githubusercontent.com/115046087/206874925-fd6bdc1a-dc33-4230-8bfb-c560aa255e8a.png)
+
+
 
 
