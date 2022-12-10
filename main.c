@@ -71,7 +71,6 @@ void wyszukiwanie(struct student *root, bool rodzaj, int szukana_ocena, char *sz
         printf("Studenci o nazwisku %s:\n", szukane_nazwisko);
         litery_w_nazwisku = strlen(nazwisko_studenta);
 
-        //porowynwanie litera po literze
         for(int i=0;i<=litery_w_nazwisku;i++){
             if(szukane_nazwisko[i]==nazwisko_studenta[i]){
                 if(i==litery_w_nazwisku) wypisz_studenta(*nast_student);
