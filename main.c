@@ -105,26 +105,66 @@ void wyszukiwanie(struct student *root, bool rodzaj, int szukana_ocena, char *sz
 }
 
 
-void usuwanie_pierwszo_napotkanego(struct student **ws_roota, int szukana_ocena){
+void usuwanie_pierwszo_napotkanego(struct student **ws_roota, bool rodzaj, int szukana_ocena, char *skreslane_nazwisko){
     struct student *poprzedni, *aktualny, *nastepny;
+    int litery_w_nazwisku;
     aktualny=*ws_roota;
-    if(aktualny->ocena==szukana_ocena){
-        *ws_roota=aktualny->next_adress;
-        free(aktualny);
-        return;
-    }
+    printf("po wykresleniu\n");
+    if(rodzaj) { // 0-ocena, 1-nazwisko
+        char *nazwisko_studenta = aktualny->nazwisko;
+        litery_w_nazwisku = strlen(nazwisko_studenta);
 
-    while(aktualny->next_adress){
-        poprzedni=aktualny;
-        aktualny=aktualny->next_adress;
-        if(aktualny->ocena==szukana_ocena){
-            nastepny=aktualny->next_adress;
-            free(aktualny);
-            poprzedni->next_adress=nastepny;
-            return;
+        //porowynwanie litera po literze
+        for (int i = 0; i <= litery_w_nazwisku; i++) {
+            if (skreslane_nazwisko[i] == nazwisko_studenta[i]) {
+                if (i == litery_w_nazwisku) {
+                    *ws_roota = aktualny->next_adress;
+                    free(aktualny);
+                    break;
+                }
+                continue;
+            }
+            break;
+        }
+
+        while (aktualny->next_adress) {
+            poprzedni = aktualny;
+            aktualny = aktualny->next_adress;
+            nazwisko_studenta = aktualny->nazwisko;
+            litery_w_nazwisku = strlen(nazwisko_studenta);
+
+            for (int i = 0; i <= litery_w_nazwisku; i++) {
+                if (skreslane_nazwisko[i] == nazwisko_studenta[i]) {
+                    if (i == litery_w_nazwisku) {
+                        nastepny = aktualny->next_adress;
+                        free(aktualny);
+                        poprzedni->next_adress = nastepny;
+                        break;
+                    }
+                    continue;
+                }
+                break;
+            }
         }
     }
+    else {
+        if (aktualny->ocena == szukana_ocena) {
+            *ws_roota = aktualny->next_adress;
+            free(aktualny);
+            return;
+        }
 
+        while (aktualny->next_adress) {
+            poprzedni = aktualny;
+            aktualny = aktualny->next_adress;
+            if (aktualny->ocena == szukana_ocena) {
+                nastepny = aktualny->next_adress;
+                free(aktualny);
+                poprzedni->next_adress = nastepny;
+                return;
+            }
+        }
+    }
 }
 
 int main() {
@@ -145,20 +185,21 @@ int main() {
     scanf("%d", &wybor); */
 
 
-    dodaj_studentow(3, root);
+    dodaj_studentow(4, root);
 
     wypisz_wszystkich(root);
 
 
-/*
+
     char S_nazwisko[100]="ABC";
+    /*
     printf("podaj nazwisko: ");
     scanf("%s", &S_nazwisko);
 
     wyszukiwanie(root, 1, 1, S_nazwisko);
 */
 
-    usuwanie_pierwszo_napotkanego(ws_root, 1);
+    usuwanie_pierwszo_napotkanego(ws_root, 1, 1, S_nazwisko);
     root=*ws_root; // zmiana roota jeśli potrzeba
 
 
