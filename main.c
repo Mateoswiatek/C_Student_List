@@ -57,7 +57,7 @@ void dodaj_studentow(int ilosc, struct student *root){
         wpisz_dane_studenta(wsk_listy);
     }
 }
-
+//ok ocena
 void wyszukiwanie(struct student *root, bool rodzaj, int szukana_ocena, char *szukane_nazwisko){
     struct student *nast_student;
     nast_student=root;
