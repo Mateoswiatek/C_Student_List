@@ -262,7 +262,10 @@ int main() {
 
 
     while (1) {
-        int wybor, ilosc;
+        int wybor, ilosc, ocena;
+        bool tryb;
+
+        char S_nazwisko[100];
 
         printf("dzialania:\n0-dodawanie stuentow (podana ilosc)\n1-wyswietlanie wszystkich studentow\n2-wyszukiwanie po ocenie / nazwisku\n3-usuwanie pierwszego napotkanego(po ocenie / nazwisku)\n4-dodawanie po danej ocenie/nazwisku\n5-usuwanie listy\n%d-Wyjscie\n", WYJSCIE);
         scanf("%d", &wybor);
@@ -277,7 +280,17 @@ int main() {
                 wypisz_wszystkich(root);
                 break;
             case 2:
-
+                printf("wyszukiwanie po\n0-ocena\n1-nazwisko\n");
+                scanf("%d",&tryb);
+                if(tryb){
+                    printf("podaj nazwisko: ");
+                    scanf("%s", &S_nazwisko);
+                }
+                else{
+                    printf("podaj ocene:");
+                    scanf("%d", &ocena);
+                }
+                wyszukiwanie(root, tryb, ocena, S_nazwisko);
                 break;
             case 3:
 
@@ -292,34 +305,27 @@ int main() {
                 printf("dzieki za skorzystanie z programu\n");
                 free(root);
                 //fflush(stdout); // z bufora na stdout (standardowe wyjście); // pokazac ze bez tego nie wypisze // ew mozna zamienic z free(root)
-                return;
+                return 0;
         }
-        printf("chcesz juz wyjsc?\n");
+        printf("chcesz juz wyjsc? 0/1\n");
         scanf("%d", &pom);
         if(pom){
             // zwalnianie calej pamieci
             printf("dzieki za skorzystanie z programu\n");
-            return;
+            return 0;
         }
     }
-
-    char S_nazwisko[100]="ABC";
-    /*
-    printf("podaj nazwisko: ");
-    scanf("%s", &S_nazwisko);
-
-    wyszukiwanie(root, 1, 1, S_nazwisko);
-*/
 
     /*
     usuwanie_pierwszo_napotkanego(ws_root, 0, 1, S_nazwisko);
     root=*ws_root; // zmiana roota jeśli potrzeba
 */
-
+/*
     wpisz_po(root, 0, 1, S_nazwisko);
 
     wypisz_wszystkich(root);
 
+*/
 
     //testy wskaznik do wskaznika
     /*
