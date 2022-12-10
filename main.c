@@ -104,6 +104,13 @@ void wyszukiwanie(struct student *root, bool rodzaj, int szukana_ocena, char *sz
 }
 
 
+void usuwanie_pierwszo_napotkanego(struct student **ws_roota, int szukana_ocena){
+    struct student *poprzedni;
+    poprzedni=*ws_roota;
+    printf("wg poprzedni, wsroot ma w sobie %u\n", poprzedni);
+
+}
+
 int main() {
     int wybor=0;
     struct student *root = 0, **ws_root; // to są unsigned int (u) /  unsigned long int  (lu)
@@ -121,16 +128,29 @@ int main() {
     printf("dzialania:\n0-dodawanie stuentow\n1-wyswietlanie studentow\n2-wyszukiwanie\n3-usuwanie\n%d-Wyjscie", WYJSCIE);
     scanf("%d", &wybor); */
 
-    dodaj_studentow(4, root);
+/*
+    dodaj_studentow(2, root);
 
     wypisz_wszystkich(root);
+*/
 
+/*
     char S_nazwisko[100]="ABC";
-    /*printf("podaj nazwisko: ");
-    scanf("%s", &S_nazwisko);*/
+    printf("podaj nazwisko: ");
+    scanf("%s", &S_nazwisko);
 
     wyszukiwanie(root, 1, 1, S_nazwisko);
+*/
 
+    usuwanie_pierwszo_napotkanego(ws_root, 1);
+
+    printf("\n\n\n\n\nroot to %u\n", root);
+    *ws_root=0; // zmieniamy zawartość
+    printf("ws_root to %u\n", ws_root);
+    printf("*ws_root to %u\n", *ws_root);
+
+    root=*ws_root;
+    printf("root po zmianie to %u\n", root);
 
     /*
        while (1) {
