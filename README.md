@@ -25,7 +25,7 @@ Aktualnie działa:
 
 ![image](https://user-images.githubusercontent.com/115046087/206872345-0308008f-6f63-4086-bbb1-4f53cc5242e8.png)
 
-- dopisywanie po wzorcu: <br />
+- dopisywanie po zadanym nazwisku: <br />
 
 ![image](https://user-images.githubusercontent.com/115046087/206874862-d01d2e98-8e2c-4efe-b926-17c781966a22.png)
 
