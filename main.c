@@ -11,7 +11,7 @@ struct student{
     char nazwisko[100];
     struct student *next_adress;
 };
-
+//
 //ok
 void wpisz_dane_studenta(struct student *s){
     printf("podaj ocene: \n");
