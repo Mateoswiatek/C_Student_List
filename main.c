@@ -11,7 +11,7 @@ struct student{
     char nazwisko[100];
     struct student *next_adress;
 };
-////
+
 //ok
 void wpisz_dane_studenta(struct student *s){
     printf("podaj ocene: \n");
@@ -182,7 +182,7 @@ int main() {
     scanf("%d", &wybor); */
 
 
-    dodaj_studentow(4, root);
+    dodaj_studentow(3, root);
 
     wypisz_wszystkich(root);
 
@@ -196,7 +196,7 @@ int main() {
     wyszukiwanie(root, 1, 1, S_nazwisko);
 */
 
-    usuwanie_pierwszo_napotkanego(ws_root, 1, 1, S_nazwisko);
+    usuwanie_pierwszo_napotkanego(ws_root, 0, 1, S_nazwisko);
     root=*ws_root; // zmiana roota jeśli potrzeba
 
 
