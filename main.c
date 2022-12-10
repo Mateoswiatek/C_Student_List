@@ -164,6 +164,65 @@ void usuwanie_pierwszo_napotkanego(struct student **ws_roota, bool rodzaj, int s
     }
 }
 
+void wpisz_po(struct  student *root, bool rodzaj, int po_ocenie, char *po_nazwisku){
+    struct student *nast_student, *n_nast_student;
+    int litery_w_nazwisku;
+    nast_student=root;
+
+    if(rodzaj) { //1 - nazwisko 0- ocena
+        char *nazwisko_studenta = nast_student->nazwisko;
+        litery_w_nazwisku = strlen(nazwisko_studenta);
+
+        for(int i=0;i<=litery_w_nazwisku;i++){
+            if(po_nazwisku[i]==nazwisko_studenta[i]){
+                if(i==litery_w_nazwisku){
+                    n_nast_student=nast_student->next_adress;
+                    nast_student->next_adress=malloc(sizeof (struct student));
+                    if(nast_student==NULL){printf("blad pamieci"); return;}
+                    nast_student=nast_student->next_adress;
+                    wpisz_dane_studenta(nast_student);
+                    nast_student->next_adress=n_nast_student;
+                    return;
+                }
+                continue;
+            }
+            break;
+        }
+
+        while (nast_student->next_adress) {
+            nast_student = nast_student->next_adress;
+            nazwisko_studenta = nast_student->nazwisko;
+            litery_w_nazwisku = strlen(nazwisko_studenta); // w ta strone, bo w sprawdzane moze byc dluzsze
+
+            for(int i=0;i<=litery_w_nazwisku;i++){
+                if(po_nazwisku[i]==nazwisko_studenta[i]){
+                    if(i==litery_w_nazwisku){
+                        n_nast_student=nast_student->next_adress;
+                        nast_student->next_adress=malloc(sizeof (struct student));
+                        if(nast_student==NULL){printf("blad pamieci"); return;}
+                        nast_student=nast_student->next_adress;
+                        wpisz_dane_studenta(nast_student);
+                        nast_student->next_adress=n_nast_student;
+                        return;
+                    }
+                    continue;
+                }
+                break;
+            }
+        }
+    }
+    else{
+        if (nast_student->ocena == po_ocenie) wypisz_studenta(*nast_student);
+        while (nast_student->next_adress) {
+            nast_student = nast_student->next_adress;
+            if (nast_student->ocena == po_ocenie) wypisz_studenta(*nast_student);
+        }
+    }
+
+
+
+}
+
 int main() {
     int wybor=0;
     struct student *root = 0, **ws_root; // to są unsigned int (u) /  unsigned long int  (lu)
@@ -196,9 +255,12 @@ int main() {
     wyszukiwanie(root, 1, 1, S_nazwisko);
 */
 
+    /*
     usuwanie_pierwszo_napotkanego(ws_root, 0, 1, S_nazwisko);
     root=*ws_root; // zmiana roota jeśli potrzeba
+*/
 
+    wpisz_po(root, 1, 1, S_nazwisko);
 
     wypisz_wszystkich(root);
 
