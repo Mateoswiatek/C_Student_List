@@ -8,6 +8,7 @@ Aktualnie działa:
 - dodawanie studentów
 - wpisywanie danych studenta
 - usuwanie nie pierwszego elementu
-Usuwanie nie pierwszego:
+<br />
+ 
 ![image](https://user-images.githubusercontent.com/115046087/206871033-412c20a5-9733-4b9e-8969-643a4601f7e6.png)
 
