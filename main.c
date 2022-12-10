@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 #define WYJSCIE 9
 bool czy_pierwszy_raz = 1;
@@ -60,11 +61,18 @@ void dodaj_studentow(int ilosc, struct student *root){
 //ok ocena
 void wyszukiwanie(struct student *root, bool rodzaj, int szukana_ocena, char *szukane_nazwisko){
     struct student *nast_student;
+    int n;
     nast_student=root;
 
     if(rodzaj) { //1 - nazwisko 0- ocena
-        printf("Naziwsko to %s\n", szukane_nazwisko);
         printf("Studenci o nazwisku %s:\n", szukane_nazwisko);
+        n = strlen(szukane_nazwisko);
+        printf("%d", n);
+
+        for(int i=0;i<=n;i++){
+            printf("%c\n", szukane_nazwisko[i]); //a
+        }
+
         if (nast_student->nazwisko == szukane_nazwisko) wypisz_studenta(*nast_student);
         while (nast_student->next_adress) {
             nast_student = nast_student->next_adress;
@@ -103,11 +111,11 @@ int main() {
 
     wypisz_wszystkich(root);
 
-    char S_nazwisko[100];
+    char S_nazwisko[100]="AAA";
     /*printf("podaj nazwisko: ");
-    scanf("%s", &S_nazwisko); */
+    scanf("%s", &S_nazwisko);*/
 
-    wyszukiwanie(root, 0, 1, S_nazwisko);
+    wyszukiwanie(root, 1, 1, S_nazwisko);
 
 
     /*
