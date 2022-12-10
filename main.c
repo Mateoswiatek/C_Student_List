@@ -54,7 +54,7 @@ void dodaj_studentow(int ilosc, struct student *root){
 
     for(i; i<ilosc;i++) {
         wsk_listy->next_adress= malloc(sizeof (struct student));
-        printf("adres kolejnego to: %u", *wsk_listy);
+        //printf("adres kolejnego to: %u", *wsk_listy);
         wsk_listy=wsk_listy->next_adress;
         if(wsk_listy==NULL){printf("blad pamieci"); return;}
         wpisz_dane_studenta(wsk_listy);
@@ -108,7 +108,6 @@ void wyszukiwanie(struct student *root, bool rodzaj, int szukana_ocena, char *sz
 void usuwanie_pierwszo_napotkanego(struct student **ws_roota, int szukana_ocena){
     struct student *poprzedni, *aktualny, *nastepny;
     aktualny=*ws_roota;
-    printf("wg poprzedni, wsroot ma w sobie %u\n", aktualny);
     if(aktualny->ocena==szukana_ocena){
         *ws_roota=aktualny->next_adress;
         free(aktualny);
@@ -165,15 +164,7 @@ int main() {
 
     wypisz_wszystkich(root);
 
-
-    printf("\n\n\n\n\nroot to %u\n", root);
-    *ws_root=0; // zmieniamy zawartość
-    printf("ws_root to %u\n", ws_root);
-    printf("*ws_root to %u\n", *ws_root);
-
-    root=*ws_root;
-    printf("root po zmianie to %u\n", root);
-
+    // menu
     /*
        while (1) {
            int wybor, ilosc;
@@ -204,4 +195,15 @@ int main() {
            }
            return 0;
        }   */
+
+    //testy wskaznik do wskaznika
+    /*
+     printf("\n\n\n\n\nroot to %u\n", root);
+    *ws_root=0; // zmieniamy zawartość
+    printf("ws_root to %u\n", ws_root);
+    printf("*ws_root to %u\n", *ws_root);
+
+    root=*ws_root;
+    printf("root po zmianie to %u\n", root); */
+
 }
