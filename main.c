@@ -28,6 +28,10 @@ void wypisz_studenta( struct student s){
 void wypisz_wszystkich(struct student *pierwszy){
     struct student *lista_studentow;
     lista_studentow=pierwszy;
+    if(lista_studentow->ocena==-1){
+        printf("lista jest pusta, uzyj 1 z menu aby dodac studentow\n");
+        return;
+    }
     printf("wszyscy studenci:\n");
     wypisz_studenta(*pierwszy);
     while(lista_studentow->next_adress){
@@ -103,11 +107,12 @@ void wyszukiwanie(struct student *root, bool rodzaj, int szukana_ocena, char *sz
     }
 }
 //ok
-void usuwanie_pierwszo_napotkanego(struct student **ws_roota, bool rodzaj, int szukana_ocena, char *skreslane_nazwisko){
-    struct student *poprzedni, *aktualny, *nastepny;
+void usuwanie_pierwszo_napotkanego(struct student **ws_roota, struct student *root_listy, bool rodzaj, int szukana_ocena, char *skreslane_nazwisko){
+    struct student *poprzedni, *aktualny, *nastepny, *ws_nowego_roota;
     int litery_w_nazwisku;
-    aktualny=*ws_roota;
-    printf("po wykresleniu\n");
+    printf("weszlismy do funkcji\n");
+    aktualny=root_listy;
+
     if(rodzaj) { // 0-ocena, 1-nazwisko
         char *nazwisko_studenta = aktualny->nazwisko;
         litery_w_nazwisku = strlen(nazwisko_studenta);
@@ -145,8 +150,12 @@ void usuwanie_pierwszo_napotkanego(struct student **ws_roota, bool rodzaj, int s
         }
     }
     else {
+        printf("weszlismy else\n");
         if (aktualny->ocena == szukana_ocena) {
-            *ws_roota = aktualny->next_adress;
+            ws_nowego_roota = aktualny->next_adress;
+            printf("przed *ws_roota\n");
+            *ws_roota = ws_nowego_roota;
+            printf("po *ws_roota\n");
             free(aktualny);
             return;
         }
@@ -240,12 +249,14 @@ void wpisz_po(struct  student *root, bool rodzaj, int po_ocenie, char *po_nazwis
 }
 
 void zwalnianie_listy(struct student *root){
-
+    // tu usuwamy wszystkie, pierwszy zostawiamy, ocene na -1, next adress na 0,
 }
 
 int main() {
-    int wybor=0;
-    bool pom;
+    bool pom, tryb;
+    int wybor=0, ilosc, ocenka;
+
+    char S_nazwisko[100];
 
     struct student *root = 0, **ws_root; // to są unsigned int (u) /  unsigned long int  (lu)
     root = malloc(sizeof(struct student));
@@ -258,15 +269,7 @@ int main() {
     printf("ocena roota to %d\n", root->ocena);
     printf("a ws_root ma w sobie: %u\n", *ws_root);
 
-
-
-
     while (1) {
-        int wybor, ilosc, ocena;
-        bool tryb;
-
-        char S_nazwisko[100];
-
         printf("dzialania:\n0-dodawanie stuentow (podana ilosc)\n1-wyswietlanie wszystkich studentow\n2-wyszukiwanie po ocenie / nazwisku\n3-usuwanie pierwszego napotkanego(po ocenie / nazwisku)\n4-dodawanie po danej ocenie/nazwisku\n5-usuwanie listy\n%d-Wyjscie\n", WYJSCIE);
         scanf("%d", &wybor);
 
@@ -288,12 +291,24 @@ int main() {
                 }
                 else{
                     printf("podaj ocene:");
-                    scanf("%d", &ocena);
+                    scanf("%d", &ocenka);
                 }
-                wyszukiwanie(root, tryb, ocena, S_nazwisko);
+                wyszukiwanie(root, tryb, ocenka, S_nazwisko);
                 break;
             case 3:
-
+                printf("usuwanie po\n0-ocena\n1-nazwisko\n");
+                scanf("%d",&tryb);
+                if(tryb){
+                    printf("podaj nazwisko: ");
+                    scanf("%s", &S_nazwisko);
+                }
+                else{
+                    printf("podaj ocene:");
+                    scanf("%d", &ocenka);
+                }
+                usuwanie_pierwszo_napotkanego(ws_root, root, tryb, ocenka, S_nazwisko);
+                printf("wyszlo\n");
+                //root=&ws_root;
                 break;
             case 4:
 
