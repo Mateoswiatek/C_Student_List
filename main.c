@@ -11,7 +11,9 @@ struct student{
     char nazwisko[100];
     struct student *next_adress;
 };
-////
+
+struct student *numer_komurki_gdzie_root;
+
 //ok
 void wpisz_dane_studenta(struct student *s){
     printf("podaj ocene: \n");
@@ -28,6 +30,10 @@ void wypisz_studenta( struct student s){
 void wypisz_wszystkich(struct student *pierwszy){
     struct student *lista_studentow;
     lista_studentow=pierwszy;
+    if(lista_studentow->ocena==-1){
+        printf("lista jest pusta, uzyj 1 z menu aby dodac studentow\n");
+        return;
+    }
     printf("wszyscy studenci:\n");
     wypisz_studenta(*pierwszy);
     while(lista_studentow->next_adress){
@@ -78,7 +84,7 @@ void wyszukiwanie(struct student *root, bool rodzaj, int szukana_ocena, char *sz
             }
             break;
         }
-        // ebane
+
         while (nast_student->next_adress) {
             nast_student = nast_student->next_adress;
             nazwisko_studenta = nast_student->nazwisko;
@@ -103,11 +109,12 @@ void wyszukiwanie(struct student *root, bool rodzaj, int szukana_ocena, char *sz
     }
 }
 //ok
-void usuwanie_pierwszo_napotkanego(struct student **ws_roota, bool rodzaj, int szukana_ocena, char *skreslane_nazwisko){
-    struct student *poprzedni, *aktualny, *nastepny;
+void usuwanie_pierwszo_napotkanego(struct student **ws_rootaa, struct student *root_listy, bool rodzaj, int szukana_ocena, char *skreslane_nazwisko){
+    struct student *poprzedni, *aktualny, *nastepny, *ws_nowego_roota;
     int litery_w_nazwisku;
-    aktualny=*ws_roota;
-    printf("po wykresleniu\n");
+    printf("weszlismy do funkcji\n");
+    aktualny=root_listy;
+
     if(rodzaj) { // 0-ocena, 1-nazwisko
         char *nazwisko_studenta = aktualny->nazwisko;
         litery_w_nazwisku = strlen(nazwisko_studenta);
@@ -115,7 +122,7 @@ void usuwanie_pierwszo_napotkanego(struct student **ws_roota, bool rodzaj, int s
         for (int i = 0; i <= litery_w_nazwisku; i++) {
             if (skreslane_nazwisko[i] == nazwisko_studenta[i]) {
                 if (i == litery_w_nazwisku) {
-                    *ws_roota = aktualny->next_adress;
+                    *ws_rootaa = aktualny->next_adress;
                     free(aktualny);
                     break;
                 }
@@ -145,8 +152,10 @@ void usuwanie_pierwszo_napotkanego(struct student **ws_roota, bool rodzaj, int s
         }
     }
     else {
+        printf("weszlismy else\n");
         if (aktualny->ocena == szukana_ocena) {
-            *ws_roota = aktualny->next_adress;
+            ws_nowego_roota = aktualny->next_adress;
+            numer_komurki_gdzie_root=ws_nowego_roota;
             free(aktualny);
             return;
         }
@@ -154,18 +163,121 @@ void usuwanie_pierwszo_napotkanego(struct student **ws_roota, bool rodzaj, int s
         while (aktualny->next_adress) {
             poprzedni = aktualny;
             aktualny = aktualny->next_adress;
+            printf("cos");
             if (aktualny->ocena == szukana_ocena) {
                 nastepny = aktualny->next_adress;
                 free(aktualny);
-                poprzedni->next_adress = nastepny;
+                poprzedni->next_adress = nastepny; // WTF
+                printf("cos");
                 return;
             }
         }
     }
 }
+//ok
+void wpisz_po(struct  student *root, bool rodzaj, int po_ocenie, char *po_nazwisku){
+    struct student *nast_student, *n_nast_student;
+    int litery_w_nazwisku;
+    nast_student=root;
+
+    if(rodzaj) { //1 - nazwisko 0- ocena
+        char *nazwisko_studenta = nast_student->nazwisko;
+        litery_w_nazwisku = strlen(nazwisko_studenta);
+
+        for(int i=0;i<=litery_w_nazwisku;i++){
+            if(po_nazwisku[i]==nazwisko_studenta[i]){
+                if(i==litery_w_nazwisku){
+                    n_nast_student=nast_student->next_adress;
+                    nast_student->next_adress=malloc(sizeof (struct student));
+                    if(nast_student==NULL){printf("blad pamieci"); return;}
+                    nast_student=nast_student->next_adress;
+                    wpisz_dane_studenta(nast_student);
+                    nast_student->next_adress=n_nast_student;
+                    return;
+                }
+                continue;
+            }
+            break;
+        }
+
+        while (nast_student->next_adress) {
+            nast_student = nast_student->next_adress;
+            nazwisko_studenta = nast_student->nazwisko;
+            litery_w_nazwisku = strlen(nazwisko_studenta); // w ta strone, bo w sprawdzane moze byc dluzsze
+
+            for(int i=0;i<=litery_w_nazwisku;i++){
+                if(po_nazwisku[i]==nazwisko_studenta[i]){
+                    if(i==litery_w_nazwisku){
+                        n_nast_student=nast_student->next_adress;
+                        nast_student->next_adress=malloc(sizeof (struct student));
+                        if(nast_student==NULL){printf("blad pamieci"); return;}
+                        nast_student=nast_student->next_adress;
+                        wpisz_dane_studenta(nast_student);
+                        nast_student->next_adress=n_nast_student;
+                        return;
+                    }
+                    continue;
+                }
+                break;
+            }
+        }
+    }
+    else{
+        if (nast_student->ocena == po_ocenie){
+            n_nast_student=nast_student->next_adress;
+            nast_student->next_adress=malloc(sizeof (struct student));
+            if(nast_student==NULL){printf("blad pamieci"); return;}
+            nast_student=nast_student->next_adress;
+            wpisz_dane_studenta(nast_student);
+            nast_student->next_adress=n_nast_student;
+            return;
+        }
+        while (nast_student->next_adress) {
+            nast_student = nast_student->next_adress;
+            if (nast_student->ocena == po_ocenie){
+                n_nast_student=nast_student->next_adress;
+                nast_student->next_adress=malloc(sizeof (struct student));
+                if(nast_student==NULL){printf("blad pamieci"); return;}
+                nast_student=nast_student->next_adress;
+                wpisz_dane_studenta(nast_student);
+                nast_student->next_adress=n_nast_student;
+                return;
+            }
+        }
+    }
+
+
+
+}
+//ok
+void zwalnianie_listy(struct student *root){
+    struct student *pierwszy, *aktualny, *nastepny;
+    pierwszy=root;
+    if(pierwszy->next_adress==0){
+        pierwszy->ocena=-1; // do stanu poczatkowego
+        return;
+    }
+
+    aktualny=pierwszy->next_adress;
+
+    while(1) {
+        if(pierwszy->next_adress==0){
+            pierwszy->ocena=-1; // do stanu poczatkowego
+            break;
+        }
+        nastepny = aktualny->next_adress;
+        free(aktualny);
+        pierwszy->next_adress = nastepny;
+        aktualny = nastepny;
+    }
+}
 
 int main() {
-    int wybor=0;
+    bool pom, tryb;
+    int wybor=0, ilosc, ocenka;
+
+    char S_nazwisko[100];
+
     struct student *root = 0, **ws_root; // to są unsigned int (u) /  unsigned long int  (lu)
     root = malloc(sizeof(struct student));
     if(root==NULL){printf("blad pamieci"); return 0;}
@@ -177,71 +289,77 @@ int main() {
     printf("ocena roota to %d\n", root->ocena);
     printf("a ws_root ma w sobie: %u\n", *ws_root);
 
-/*
-    printf("dzialania:\n0-dodawanie stuentow\n1-wyswietlanie studentow\n2-wyszukiwanie\n3-usuwanie\n%d-Wyjscie", WYJSCIE);
-    scanf("%d", &wybor); */
+    while (1) {
+        printf("dzialania:\n0-dodawanie stuentow (podana ilosc)\n1-wyswietlanie wszystkich studentow\n2-wyszukiwanie po ocenie / nazwisku\n3-usuwanie pierwszego napotkanego(po ocenie / nazwisku)\n4-dodawanie po danej ocenie/nazwisku\n5-usuwanie listy\n%d-Wyjscie\n", WYJSCIE);
+        scanf("%d", &wybor);
 
-
-    dodaj_studentow(4, root);
-
-    wypisz_wszystkich(root);
-
-
-
-    char S_nazwisko[100]="ABC";
-    /*
-    printf("podaj nazwisko: ");
-    scanf("%s", &S_nazwisko);
-
-    wyszukiwanie(root, 1, 1, S_nazwisko);
-*/
-
-    usuwanie_pierwszo_napotkanego(ws_root, 1, 1, S_nazwisko);
-    root=*ws_root; // zmiana roota jeśli potrzeba
-
-
-    wypisz_wszystkich(root);
-
-    // menu
-    /*
-       while (1) {
-           int wybor, ilosc;
-
-
-           printf("Wybierz dzialanie:\n0 - dodawanie studentow\n1 - wyswietlanie wszystkich studentow\n");
-           printf("2 - OCENA znajdywanie studenta\n3 - NAZWISKO znajdywnie studenta\n%d - wyjscie\n", WYJSCIE);
-           scanf("%d", &wybor);
-
-           switch (wybor) {
-               case 0:
-
-                   break;
-               case 1:
-
-                   break;
-               case 2:
-
-                   break;
-               case 3:
-
-                   break;
-               case WYJSCIE:
-                   printf("dzieki za skorzystanie z programu\n");
-                   free(root);
-                   //fflush(stdout); // z bufora na stdout (standardowe wyjście); // pokazac ze bez tego nie wypisze // ew mozna zamienic z free(root)
-                   return 0;
-           }
-           return 0;
-       }   */
-
-    //testy wskaznik do wskaznika
-    /*
-     printf("\n\n\n\n\nroot to %u\n", root);
-    *ws_root=0; // zmieniamy zawartość
-    printf("ws_root to %u\n", ws_root);
-    printf("*ws_root to %u\n", *ws_root);
-
-    root=*ws_root;
-    printf("root po zmianie to %u\n", root); */
-
+        switch (wybor) {
+            case 0:
+                printf("podaj ilosc studentow do dopisania\n");
+                scanf("%d", &ilosc);
+                dodaj_studentow(ilosc, root);
+                break;
+            case 1:
+                wypisz_wszystkich(root);
+                break;
+            case 2:
+                printf("wyszukiwanie po\n0-ocena\n1-nazwisko\n");
+                scanf("%d",&tryb);
+                if(tryb){
+                    printf("podaj nazwisko: ");
+                    scanf("%s", &S_nazwisko);
+                }
+                else{
+                    printf("podaj ocene:");
+                    scanf("%d", &ocenka);
+                }
+                wyszukiwanie(root, tryb, ocenka, S_nazwisko);
+                break;
+            case 3:
+                printf("usuwanie po\n0-ocena\n1-nazwisko\n");
+                scanf("%d",&tryb);
+                if(tryb){
+                    printf("podaj nazwisko: ");
+                    scanf("%s", &S_nazwisko);
+                }
+                else{
+                    printf("podaj ocene:");
+                    scanf("%d", &ocenka);
+                }
+                usuwanie_pierwszo_napotkanego(ws_root, root, tryb, ocenka, S_nazwisko);
+                printf("wyszlo\n");
+                root=numer_komurki_gdzie_root;
+                break;
+            case 4:
+                printf("dodawanie po\n0-ocena\n1-nazwisko\n");
+                scanf("%d",&tryb);
+                if(tryb){
+                    printf("podaj nazwisko: ");
+                    scanf("%s", &S_nazwisko);
+                }
+                else{
+                    printf("podaj ocene:");
+                    scanf("%d", &ocenka);
+                }
+                wpisz_po(root, tryb, ocenka, S_nazwisko);
+                break;
+            case 5:
+                zwalnianie_listy(root);
+                break;
+            case WYJSCIE:
+                printf("dzieki za skorzystanie z programu\n");
+                zwalnianie_listy(root);
+                free(root);
+                //fflush(stdout); // z bufora na stdout (standardowe wyjście); // pokazac ze bez tego nie wypisze // ew mozna zamienic z free(root)
+                return 0;
+        }
+        printf("chcesz juz wyjsc? 0/1\n");
+        scanf("%d", &pom);
+        if(pom){
+            zwalnianie_listy(root);
+            free(root);
+            printf("dzieki za skorzystanie z programu\n");
+            return 0;
+        }
+    }
 }
