@@ -274,13 +274,16 @@ void zwalnianie_listy(struct student *root){
 
 int main() {
     bool pom, tryb;
-    int wybor=0, ilosc, ocenka;
+    int wybor = 0, ilosc, ocenka;
 
     char S_nazwisko[100];
 
     struct student *root = 0, **ws_root; // to są unsigned int (u) /  unsigned long int  (lu)
     root = malloc(sizeof(struct student));
-    if(root==NULL){printf("blad pamieci"); return 0;}
+    if (root == NULL) {
+        printf("blad pamieci");
+        return 0;
+    }
     root->next_adress = 0;
     root->ocena = -1;
 
@@ -290,7 +293,8 @@ int main() {
     printf("a ws_root ma w sobie: %u\n", *ws_root);
 
     while (1) {
-        printf("dzialania:\n0-dodawanie stuentow (podana ilosc)\n1-wyswietlanie wszystkich studentow\n2-wyszukiwanie po ocenie / nazwisku\n3-usuwanie pierwszego napotkanego(po ocenie / nazwisku)\n4-dodawanie po danej ocenie/nazwisku\n5-usuwanie listy\n%d-Wyjscie\n", WYJSCIE);
+        printf("dzialania:\n0-dodawanie stuentow (podana ilosc)\n1-wyswietlanie wszystkich studentow\n2-wyszukiwanie po ocenie / nazwisku\n3-usuwanie pierwszego napotkanego(po ocenie / nazwisku)\n4-dodawanie po danej ocenie/nazwisku\n5-usuwanie listy\n%d-Wyjscie\n",
+               WYJSCIE);
         scanf("%d", &wybor);
 
         switch (wybor) {
@@ -304,12 +308,11 @@ int main() {
                 break;
             case 2:
                 printf("wyszukiwanie po\n0-ocena\n1-nazwisko\n");
-                scanf("%d",&tryb);
-                if(tryb){
+                scanf("%d", &tryb);
+                if (tryb) {
                     printf("podaj nazwisko: ");
                     scanf("%s", &S_nazwisko);
-                }
-                else{
+                } else {
                     printf("podaj ocene:");
                     scanf("%d", &ocenka);
                 }
@@ -317,27 +320,25 @@ int main() {
                 break;
             case 3:
                 printf("usuwanie po\n0-ocena\n1-nazwisko\n");
-                scanf("%d",&tryb);
-                if(tryb){
+                scanf("%d", &tryb);
+                if (tryb) {
                     printf("podaj nazwisko: ");
                     scanf("%s", &S_nazwisko);
-                }
-                else{
+                } else {
                     printf("podaj ocene:");
                     scanf("%d", &ocenka);
                 }
                 usuwanie_pierwszo_napotkanego(ws_root, root, tryb, ocenka, S_nazwisko);
                 printf("wyszlo\n");
-                root=numer_komurki_gdzie_root;
+                root = numer_komurki_gdzie_root;
                 break;
             case 4:
                 printf("dodawanie po\n0-ocena\n1-nazwisko\n");
-                scanf("%d",&tryb);
-                if(tryb){
+                scanf("%d", &tryb);
+                if (tryb) {
                     printf("podaj nazwisko: ");
                     scanf("%s", &S_nazwisko);
-                }
-                else{
+                } else {
                     printf("podaj ocene:");
                     scanf("%d", &ocenka);
                 }
@@ -355,7 +356,7 @@ int main() {
         }
         printf("chcesz juz wyjsc? 0/1\n");
         scanf("%d", &pom);
-        if(pom){
+        if (pom) {
             zwalnianie_listy(root);
             free(root);
             printf("dzieki za skorzystanie z programu\n");
